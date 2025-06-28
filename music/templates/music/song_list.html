@@ -1,0 +1,24 @@
+{% extends 'music/base.html' %}
+{% block title %}Home - LyricsHub{% endblock %}
+{% block content %}
+
+<h2 class="text-2xl font-semibold mb-4">All Songs</h2>
+
+<form method="get" class="mb-6">
+  <input type="text" name="q" placeholder="Search by title..." class="border p-2 rounded w-full" value="{{ request.GET.q }}">
+</form>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for song in songs %}
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4">
+      <h3 class="text-xl font-bold">{{ song.title }}</h3>
+      <p class="text-gray-600">By {{ song.artist.name }}</p>
+      <p class="text-sm mt-2 italic">Category: {{ song.get_category_display }}</p>
+      <a href="{% url 'song_detail' song.id %}" class="text-indigo-600 mt-3 inline-block">View Lyrics →</a>
+    </div>
+  {% empty %}
+    <p>No songs found.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

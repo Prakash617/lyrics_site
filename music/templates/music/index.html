@@ -1,0 +1,70 @@
+{% extends "music/base.html" %}
+{% block title %}Home - LyricsHub{% endblock %}
+{% block content %}
+
+<!-- 🎉 Hero Section -->
+<section class="text-center py-12 md:py-20">
+  <h1 class="text-4xl md:text-6xl font-extrabold text-purple-700 drop-shadow-xl animate-fade-in-up">
+    🎵 Welcome to LyricsHub
+  </h1>
+  <p class="mt-4 text-gray-600 text-lg max-w-2xl mx-auto">
+    Discover your favorite songs with guitar chords – from Nepali classics to trending global hits.
+  </p>
+  <a href="{% url 'song_list' %}" class="mt-6 inline-block px-6 py-3 bg-purple-600 text-white rounded-xl shadow-md hover:bg-purple-700 transition">
+    Browse All Songs →
+  </a>
+</section>
+
+<!-- 🔥 Trending Songs -->
+<section class="mt-16">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">🔥 Trending Songs</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {% for song in trending_songs %}
+      <div class="bg-white/40 backdrop-blur rounded-xl shadow-md p-4 hover:scale-[1.02] transition-all duration-300">
+        <h3 class="text-xl font-semibold text-purple-700">{{ song.title }}</h3>
+        <p class="text-sm text-gray-600">By {{ song.artists.all|join:", " }}</p>
+        <p class="text-xs italic text-gray-500 mt-1">{{ song.get_category_display }}</p>
+        <a href="{% url 'song_detail' song.slug %}" class="text-indigo-600 mt-3 inline-block hover:underline">View Lyrics →</a>
+      </div>
+    {% empty %}
+      <p>No trending songs available.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- 🎤 Featured Artists -->
+<section class="mt-20">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">🎤 Featured Artists</h2>
+  <div class="flex flex-wrap gap-6">
+    {% for artist in artists %}
+      <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 bg-white/30 backdrop-blur-md rounded-xl p-4 shadow hover:shadow-lg transition">
+        {% if artist.image %}
+          <img src="{{ artist.image.url }}" alt="{{ artist.name }}" class="rounded-full w-20 h-20 object-cover mx-auto mb-3 shadow-md" />
+        {% else %}
+          <div class="w-20 h-20 rounded-full bg-purple-200 flex items-center justify-center mx-auto mb-3 text-purple-800 font-bold">
+            {{ artist.name|slice:":1" }}
+          </div>
+        {% endif %}
+        <h3 class="text-center font-semibold text-purple-700">{{ artist.name }}</h3>
+      </div>
+    {% empty %}
+      <p>No artists found.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- 🎧 Genres -->
+<section class="mt-20">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6">🎧 Explore by Genre</h2>
+  <div class="flex flex-wrap gap-4">
+    {% for genre in genres %}
+      <a href="#" class="px-4 py-2 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition">
+        {{ genre.name }}
+      </a>
+    {% empty %}
+      <p>No genres found.</p>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock content %}

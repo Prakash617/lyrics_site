@@ -1,0 +1,20 @@
+{% extends "music/base.html" %}
+{% block title %}{{ song.title }} - Lyrics{% endblock %}
+{% block content %}
+
+<div class="max-w-3xl mx-auto bg-white/60 backdrop-blur-lg rounded-lg p-6 shadow-md">
+  <h1 class="text-3xl font-bold text-purple-700">{{ song.title }}</h1>
+  <p class="text-gray-600">By {{ song.artists.all|join:", " }}</p>
+
+  {% if song.youtube_link %}
+    <div class="my-6 aspect-w-16 aspect-h-9">
+      <iframe class="w-full rounded-md" src="https://www.youtube.com/embed/{{ song.youtube_link|cut:'https://www.youtube.com/watch?v=' }}" frameborder="0" allowfullscreen></iframe>
+    </div>
+  {% endif %}
+
+  <div class="mt-4 whitespace-pre-wrap font-mono text-sm bg-purple-50 p-4 rounded">
+    {{ song.lyrics }}
+  </div>
+</div>
+
+{% endblock %}
